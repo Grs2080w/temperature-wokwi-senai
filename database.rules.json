@@ -1,0 +1,20 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "readings": {
+      "$room": {
+        ".read": "auth != null && ($room === 'sala1' || $room === 'sala2')",
+        ".indexOn": ["timestamp"],
+        "$id": {
+          ".write": "($room === 'sala1' || $room === 'sala2') && !data.exists()",
+          ".validate": "newData.hasChildren(['temperature', 'humidity', 'timestamp']) && newData.child('temperature').isNumber() && newData.child('humidity').isNumber() && newData.child('timestamp').isNumber() && newData.child('temperature').val() >= -40 && newData.child('temperature').val() <= 80 && newData.child('humidity').val() >= 0 && newData.child('humidity').val() <= 100"
+        }
+      }
+    },
+    "meta": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}

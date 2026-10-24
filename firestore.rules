@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Perfis: cada um cria o seu como 'user'; so admin altera papeis.
+    match /users/{uid} {
+      allow get: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow list: if isAdmin();
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.role == 'user'
+        && request.resource.data.keys().hasOnly(['email', 'role', 'createdAt']);
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role']);
+      allow delete: if false;
+    }
+
+    // Salas: todos leem; so admin edita nome/limites (valida min < max).
+    match /rooms/{room} {
+      allow read: if signedIn();
+      allow create, update: if isAdmin()
+        && request.resource.data.limits.temperature.min < request.resource.data.limits.temperature.max
+        && request.resource.data.limits.humidity.min < request.resource.data.limits.humidity.max;
+      allow delete: if false;
+
+      // readings, stats, summary, daily: gravados so pelo Flask (conta de servico ignora regras)
+      match /{sub}/{doc=**} {
+        allow read: if signedIn();
+        allow write: if false;
+      }
+    }
+
+    match /cycles/{id} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+  }
+}

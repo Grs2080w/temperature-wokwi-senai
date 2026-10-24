@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "author": "temperatura-wokwi",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-dht22", "id": "dht1", "top": -105.3, "left": 120, "attrs": { "temperature": "22", "humidity": "45" } },
+    { "type": "wokwi-dht22", "id": "dht2", "top": -105.3, "left": 240, "attrs": { "temperature": "23", "humidity": "50" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "dht1:VCC", "esp:3V3", "red", [ "v0" ] ],
+    [ "dht1:GND", "esp:GND.2", "black", [ "v0" ] ],
+    [ "dht1:SDA", "esp:15", "green", [ "v0" ] ],
+    [ "dht2:VCC", "esp:3V3", "red", [ "v0" ] ],
+    [ "dht2:GND", "esp:GND.2", "black", [ "v0" ] ],
+    [ "dht2:SDA", "esp:4", "green", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}

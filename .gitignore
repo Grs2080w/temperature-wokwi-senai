@@ -1,0 +1,21 @@
+# dependencias e build
+node_modules/
+dist/
+.venv/
+__pycache__/
+
+# segredos — nunca commitar
+.env
+.env.local
+serviceAccountKey.json
+*.pem
+*.key
+
+# ferramentas
+.firebase/
+firebase-debug.log
+job.lock
+.DS_Store
+
+# anotacoes locais
+INSTRUCTIONS.MD

@@ -1,0 +1,18 @@
+{
+  "name": "monitoramento-salas",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.7",
+    "firebase": "^10.14.1"
+  },
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
+}
