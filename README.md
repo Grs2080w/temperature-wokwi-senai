@@ -106,6 +106,20 @@ O **Realtime Database** entrega baixa latência para o painel ao vivo. O **Fires
 | `cycles/{id}` | Média do ciclo com as duas salas |
 | `users/{uid}` | E-mail e papel (`admin` ou `user`) |
 
+### Os dados no Firebase
+
+<p align="center">
+  <img src="docs/img/firebase-realtime.jpeg" alt="Realtime Database com as leituras de sala1 e sala2" width="420">
+  <br>
+  <sub><b>Realtime Database:</b> as leituras brutas chegam em <code>readings/sala1</code> e <code>readings/sala2</code>, cada uma com <code>temperature</code>, <code>humidity</code> e <code>timestamp</code> (preenchido pelo servidor). O worker apaga o que já foi processado.</sub>
+</p>
+
+<p align="center">
+  <img src="docs/img/firestore.jpeg" alt="Firestore com a coleção cycles e o documento de um ciclo" width="860">
+  <br>
+  <sub><b>Cloud Firestore:</b> coleção <code>cycles</code> com o resumo de cada ciclo do worker (contagem, média, mínimo e máximo de temperatura e umidade, início e fim do período). Ao lado, <code>rooms</code> e <code>users</code>.</sub>
+</p>
+
 ## Estrutura do repositório
 
 ```
